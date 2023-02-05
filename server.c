@@ -4,16 +4,26 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+int    fork(int pid)
+{
+    printf("\nEnter the process: ");
+    scanf("%d", &pid);
+    return(pid);
+}
+
 int main()
 {
-    int pid = 0;
+    int pid;
+    pid = fork(pid);
+
     if (pid == -1) // child process
         return 1;
     if (pid == 0) // parent process
-        while (1)
+        while (pid == 0)
         {
             printf("\nSome test goes here");
             usleep(4000000);
+            pid = fork(pid);
         }
     else
     {
@@ -21,5 +31,6 @@ int main()
         kill(pid, SIGKILL); //process id kill
         WAIT_CHILD;
     }
+    pid = fork(pid);
     return 0;
 }
