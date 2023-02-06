@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/* This documentation is for to understand signals in C programming language. Compiling these programs with -Wall -Wextra -Werror flags may cause 
+error throughout your programming. At first just compile these with gcc *.c */
 
 /* This program will allow you to understand how to prevent sending process to the background. Can be found as "Signal Handling" */
 
@@ -39,9 +41,9 @@ int sifo(int pid)
     return (pid);
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-    int pid = fork();;
+    int pid = fork();
     //int pid2 = 0;
     //pid2 = sifo(pid2);
 
