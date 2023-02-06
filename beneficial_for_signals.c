@@ -14,18 +14,38 @@ void	handle_sigtstp(int sig)
 	printf("You are not authorized to stop the process!\n"); // Ctrl + Z will not allow us to send the process background
 }
 
+void	handle_sigcont(int sig)
+{
+	printf("Input number: \n"); // Ctrl + Z will not allow us to send the process background
+}
+
 int main(void)
 {
+	
+	// For handling signals 2 functions can be used. These are sigaction() with 3 parameters and signal() with 2 paramteres.
+	// In signal handling usage of signal() function is easier but not recommended in it's manual page.
+	// Because signal() function may vary across UNIX versions so usage of sigaciton() is more reliable. 
+	
+	// First form your struct for sigaction() function:
 	struct sigaction sa;
+	
+	
+	// To prevent stop the program:
 	sa.sa_handler = &handle_sigtstp;
-	sa.sa_flags = SA_RESTART; // SA_RESTART: Provide behavior compatible with BSD signal semantics by making certain system calls restartable across signals.
-	sigaction(SIGTSTP, &sa, NULL); // If we have another sigaction set before that it would save it inside third parameter
-	//SIGTSTP is an interactive stop signal. 
+	sa.sa_flags = SA_RESTART; 
+	sigaction(SIGTSTP, &sa, NULL); // Now Ctr + Z will print out "You are not authorized to stop the process!" 
+	
+	// SA_RESTART: Provide behavior compatible with BSD signal semantics by making certain system calls restartable across signals.
+	// 3rd parameter in sigaction() function stands for if there is another sigaction set before that it would save it inside this parameter.
+	// SIGTSTP is an interactive stop signal. 
+	
+	// To continue the program:
+	sa.sa_handler = &handle_sigcont;
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGTSTP, &sa, NULL); // Now Ctr + Z will print out "Input number: " 
 
-	// If you don't want to use struct, use function down below instead of above:
+	// signal() function usage:
 	signal(SIGTSTP, &handle_sigtstp);
-	// But avoid using signal() function due to warning on the manual page. signal() function may vary across UNIX versions so
-	// using sigaction() instead of signal() is recommended
 
 	int x;
 	printf("Input number: ");
@@ -34,7 +54,9 @@ int main(void)
 	return 0;
 }
 
-//**************************************************************************************************************************************************//
+/* Remember! Do not forget to comment lines that you don't need inside your program. For example to prevent stop comment continue and signal() phases. */
+
+//*****************************************************************************************************************************************************//
 
 /* This program will allow you to understand how to get notification from the process. Usage of sifo function is not necessary for Linux and MacOS but
 in Windows compiling with VSCode may occur problems due to "fork" function. This function is defined inside <sys/types.h> library. If you have troubles
