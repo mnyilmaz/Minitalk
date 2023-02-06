@@ -12,7 +12,6 @@ in Windows compiling with VSCode may occur problems due to "fork" function. This
 to call this function in windows just to observe signal process and usleep() try to add sifo function. */
 
 // Understanding fork():
-
 int main(int argc, char* argv[])
 {
 	fork();
