@@ -16,7 +16,9 @@ void	handle_sigtstp(int sig)
 
 void	handle_sigcont(int sig)
 {
-	printf("Input number: \n"); // Ctrl + Z will not allow us to send the process background
+	printf("Input number: \n"); // Ctrl + Z will suspend a.out 
+	fflush(stdout);
+	// fflush(): Its purpose is to clear the output buffer and move the buffered data to console
 }
 
 int main(void)
@@ -28,7 +30,6 @@ int main(void)
 	
 	// First form your struct for sigaction() function:
 	struct sigaction sa;
-	
 	
 	// To prevent stop the program:
 	sa.sa_handler = &handle_sigtstp;
@@ -42,7 +43,9 @@ int main(void)
 	// To continue the program:
 	sa.sa_handler = &handle_sigcont;
 	sa.sa_flags = SA_RESTART;
-	sigaction(SIGTSTP, &sa, NULL); // Now Ctr + Z will print out "Input number: " 
+	sigaction(SIGCONT, &sa, NULL); // Now Ctr + Z will suspend or stop the "a.out" (or whatever your program output is)
+	// After Ctrl + Z, program will be suspended and if you enter
+	// >fg command from the terminal process will be fore-grounded again and user can enter an "Input number: " for execution.
 
 	// signal() function usage:
 	signal(SIGTSTP, &handle_sigtstp);
