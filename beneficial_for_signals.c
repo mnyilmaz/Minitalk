@@ -19,11 +19,13 @@ int main(void)
 	struct sigaction sa;
 	sa.sa_handler = &handle_sigtstp;
 	sa.sa_flags = SA_RESTART; // SA_RESTART: Provide behavior compatible with BSD signal semantics by making certain system calls restartable across signals.
-	sigaction(SIGTSTP, &sa, NULL); // if we have another sigaction set before that it would save it inside third parameter
+	sigaction(SIGTSTP, &sa, NULL); // If we have another sigaction set before that it would save it inside third parameter
 	//SIGTSTP is an interactive stop signal. 
 
-	// if you don't want to use struct, use function down below instead of above:
+	// If you don't want to use struct, use function down below instead of above:
 	signal(SIGTSTP, &handle_sigtstp);
+	// But avoid using signal() function due to warning on the manual page. signal() function may vary across UNIX versions so
+	// using sigaction() instead of signal() is recommended
 
 	int x;
 	printf("Input number: ");
