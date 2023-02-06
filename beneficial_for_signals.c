@@ -75,7 +75,7 @@ void	handle_sigcont(int sig)
 	// fflush(): Its purpose is to clear the output buffer and move the buffered data to console
 }
 
-int main(void)
+int main(int argc, char* argv[])
 {
 	// For handling signals 2 functions can be used. These are sigaction() with 3 parameters and signal() with 2 paramteres.
 	// In signal handling usage of signal() function is easier but not recommended in it's manual page.
