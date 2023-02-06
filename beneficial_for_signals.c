@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
 	struct sigaction sa;
 	sa.sa_handler = &handle_sigtstp;
 	sa.sa_flags = SA_RESTART;
-	sigaction(SIGTSTP, &sa, NULL);
+	sigaction(SIGTSTP, &sa, NULL); // if we have another sigaction set before that it would save it inside third parameter
 
 	int x;
 	printf("Input number: ");
