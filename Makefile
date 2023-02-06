@@ -20,8 +20,8 @@ fclean: 	clean
 
 re:		fclean all
 
-d:
+com:
 		$(CC) $(CFLAGS) $(SRCS) -o t.exe
 		@echo "Compiled"
 
-.PHONY:		all clean fclean re d
+.PHONY:		all clean fclean re com
