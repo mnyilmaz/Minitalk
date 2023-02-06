@@ -54,9 +54,9 @@ int main(void)
 	return 0;
 }
 
-/* Remember! Do not forget to comment lines that you don't need inside your program. For example to prevent stop comment continue and signal() phases. */
+/* Remember! Do not forget to comment lines that you don't need inside your program. For example to prevent stop, comment continue and signal() phases. */
 
-//*****************************************************************************************************************************************************//
+//******************************************************************************************************************************************************//
 
 /* This program will allow you to understand how to get notification from the process. Usage of sifo function is not necessary for Linux and MacOS but
 in Windows compiling with VSCode may occur problems due to "fork" function. This function is defined inside <sys/types.h> library. If you have troubles
