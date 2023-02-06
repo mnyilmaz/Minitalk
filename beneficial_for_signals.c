@@ -7,6 +7,61 @@
 /* This documentation is for to understand signals in C programming language. Compiling these programs with -Wall -Wextra -Werror flags may cause 
 error throughout your programming. At first just compile these with gcc *.c */
 
+/* This program will allow you to understand how to get notification from the process. Usage of sifo function is not necessary for Linux and MacOS but
+in Windows compiling with VSCode may occur problems due to "fork" function. This function is defined inside <sys/types.h> library. If you have troubles
+to call this function in windows just to observe signal process and usleep() try to add sifo function. */
+
+// Understanding fork():
+
+int main(int argc, char* argv[])
+{
+	fork();
+	printf("Fork is working... %d\n", getpid());
+	// Output will be:
+	// Fork is working... ID1		-> Parent Process
+	// Fork is working... ID1 + 1	-> Child Process
+	// Fork system call is used for forming a new process, which is called child process, 
+	// which runs concurrently with the process that makes the fork() call (parent process)
+}
+
+int sifo(int pid)
+{
+	printf("\nEnter the process: ");
+	scanf("%d", &pid);
+	return (pid);
+}
+
+int main(int argc, char* argv[])
+{
+	int pid = fork();
+	//int pid2 = 0;
+	//pid2 = sifo(pid2);
+
+	if (pid == -1) // Forming of a child process was unsuccessful
+		return 1;
+	if (pid == 0) // Returned to the newly formed child process
+		while (pid == 0)
+		{
+			printf("\nSome test goes here");
+			usleep(4000000);
+			//pid2 = sifo(pid2);
+		}
+	else // Returned to parent or caller. The value contains process ID of newly formed child process.
+	{
+		sleep(1);
+		kill(pid, SIGKILL); // process id kill
+		wait(0);
+	}
+	//pid2 = sifo(pid2);
+	return 0;
+}
+
+/* Remember! First understand usage of fork() and try to execute the code using the fork(). Fork() function has 3 main outputs. Negative, positive and zero. */
+
+
+//************************************************************************************************************************************************************//
+
+
 /* This program will allow you to understand how to prevent sending process to the background. Can be found as "Signal Handling" */
 
 void	handle_sigtstp(int sig)
@@ -63,58 +118,6 @@ int main(void)
 
 /* Remember! Do not forget to comment lines that you don't need inside your program. For example to prevent stop, comment continue and signal() phases. */
 
-//************************************************************************************************************************************************************//
-
-/* This program will allow you to understand how to get notification from the process. Usage of sifo function is not necessary for Linux and MacOS but
-in Windows compiling with VSCode may occur problems due to "fork" function. This function is defined inside <sys/types.h> library. If you have troubles
-to call this function in windows just to observe signal process and usleep() try to add sifo function. */
-
-// Understanding fork():
-
-int main(int argc, char* argv[])
-{
-	fork();
-	printf("Fork is working... %d\n", getpid());
-	// Output will be:
-	// Fork is working... ID1		-> Parent Process
-	// Fork is working... ID1 + 1	-> Child Process
-	// Fork system call is used for forming a new process, which is called child process, 
-	// which runs concurrently with the process that makes the fork() call (parent process)
-}
-
-int sifo(int pid)
-{
-    printf("\nEnter the process: ");
-    scanf("%d", &pid);
-    return (pid);
-}
-
-int main(int argc, char* argv[])
-{
-    int pid = fork();
-    //int pid2 = 0;
-    //pid2 = sifo(pid2);
-
-    if (pid == -1) // Forming of a child process was unsuccessful
-        return 1;
-    if (pid == 0) // Returned to the newly formed child process
-        while (pid == 0)
-        {
-            printf("\nSome test goes here");
-            usleep(4000000);
-            //pid2 = sifo(pid2);
-        }
-    else // Returned to parent or caller. The value contains process ID of newly formed child process.
-    {
-        sleep(1);
-        kill(pid, SIGKILL); // process id kill
-        wait(0);
-    }
-    //pid2 = sifo(pid2);
-    return 0;
-}
-
-/* Remember! First understand usage of fork() and try to execute the code using the fork(). Fork() function has 3 main outputs. Negative, positive and zero. */
 
 //************************************************************************************************************************************************************//
 
