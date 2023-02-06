@@ -9,7 +9,7 @@
 
 void	handle_sigtstp(int sig)
 {
-	printf("You are not authorized to stop the process!\n"); // Ctrl + Z will not allow ou to send the process background
+	printf("You are not authorized to stop the process!\n"); // Ctrl + Z will not allow us to send the process background
 }
 
 int main(int argc, char* argv[])
