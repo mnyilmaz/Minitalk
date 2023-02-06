@@ -5,7 +5,7 @@ SRCS		= server.c client.c
 OBJS		= ${SRCS:.c=.o}
 
 CFLAGS 		= -Wall -Wextra -Werror
-CC 			= gcc
+CC 			= @gcc
 
 all:		$(NAME)
 
@@ -20,8 +20,8 @@ fclean: 	clean
 
 re:		fclean all
 
-com:
-		$(CC) $(CFLAGS) $(SRCS) -o t.exe
-		@echo "Compiled"
+com:		re
+			@$(CC) $(CFLAGS) $(SRCS) -o t.exe
+			@echo "Compiled"
 
 .PHONY:		all clean fclean re com
