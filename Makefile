@@ -21,7 +21,7 @@ fclean: 	clean
 re:		fclean all
 
 com:		re
-			@$(CC) $(CFLAGS) $(SRCS) -o t.exe
+			@$(CC) $(CFLAGS) $(SRCS) -o main.exe
 			@echo "Compiled"
 
 .PHONY:		all clean fclean re com
