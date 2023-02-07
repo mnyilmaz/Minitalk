@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
 
 	// PID: Process ID
 	// Output will be:
-	// Fork is working... ID1		-> Parent Process
+	// Fork is working... ID1	-> Parent Process
 	// Fork is working... ID1 + 1	-> Child Process
 	// Fork system call is used for forming a new process, which is called child process,
 	// which runs concurrently with the process that makes the fork() call (parent process).
