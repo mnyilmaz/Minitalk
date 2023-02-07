@@ -412,7 +412,8 @@ int main(int argc, char* argv[])
 	int fd;
 
 	printf("Opening...\n");
-	fd = open(pathName, O_RDWR); // If you choose O_RDONLY open() won't open because of the improper authorizaiton
+	if (fd = open(pathName, O_RDWR) == -1) // If you choose O_RDONLY open() won't open because of the improper authorizaiton
+		printf("An error occured while opening.") 
 	printf("Opened.\n");
 
 	if(write(fd, &x, sizeof(int) == -1))
