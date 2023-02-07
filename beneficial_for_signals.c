@@ -430,6 +430,78 @@ int main(int argc, char* argv[])
 
 //************************************************************************************************************************************************************//
 
+/* Using FIFO files to communicate between processes:
+	This part requires two different c files to execute. While one file is reading the other one must be writing. Consider that there are two C files named as
+	main.c and main2.c as an example. main.c will include the writing part while main2.c include reading part. First compile these two files. Then execute the main.c 
+	Process should look frozen on the terminal. Then from another terminal execute main2.c and observe all required items have written on the terminal. */
+
+/* main.c */
+int main(int argc, char* argv[])
+{
+	char *pathName = "F_SUM";
+
+	if (mkfifo(pathName, 0777) == -1)
+	{
+		if (errno == EEXIST)
+			printf("The %s file has already exists.\n", pathName);
+			return (1);
+		printf("An error occured while forming %s file.\n", pathName);
+	}
+
+	int size = 5;
+	int nums[size];
+	srand(time(NULL));
+	int i;
+
+	for (i = 0; i < size; i++)
+	{
+		nums[i] = rand() % 100;
+		printf("Generated: %d\n", nums[i]);
+	}
+	int fd;
+	if (fd = open(pathName, O_WRONLY) == -1)
+		printf("An error occured while opening the file.\n");
+
+	if (write(fd, nums, (sizeof(int) * size)) == -1)
+		printf("An error occured while writing.\n");
+
+	close(fd);
+	return (0);
+}
+
+/* main2.c */
+int main(int argc, char* argv[])
+{
+	char *pathName = "F_SUM";
+	int size = 5;
+	int nums[size];
+
+	int fd;
+	if (fd = open(pathName, O_RDONLY) == -1)
+		printf("An error occured while opening the file.\n");
+
+	int i;
+	for (i = 0; i < size; i++)
+	{
+		if (read(fd, &nums[i], sizeof(int)) == -1)
+			printf("An error occured while reading from the file.\n");
+		printf("Data received from another c file as: %d\n", nums[i]);
+	}
+	close(fd);
+
+	int sum = 0;
+	for (i = 0; i < size; i++)
+		sum += nums[i];
+
+	printf("Result is: %d\n", sum);
+
+	return (0);
+}
+
+/* Remember! Make sure you've deleted the FIFO file in every single compiling process. Just to be sure. */
+
+//************************************************************************************************************************************************************//
+
 /* This program will allow you to understand how to get notification from the process. Usage of sifo function is not necessary for Linux and MacOS but
 in Windows compiling with VSCode may occur problems due to "fork" function. This function is defined inside <sys/types.h> library. If you have troubles
 to call this function in windows just to observe signal process and usleep() try to add sifo function. */
