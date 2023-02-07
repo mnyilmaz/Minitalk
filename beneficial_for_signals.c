@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <errno.h>
 
 /* This documentation is for to understand signals in C programming language. Compiling these programs with -Wall -Wextra -Werror flags may cause
 error throughout your programming. At first just compile these with gcc *.c */
@@ -124,6 +125,70 @@ int main(int argc, char *argv[])
 
 //************************************************************************************************************************************************************//
 
+// Multiple fork()
+int main(int argc, char* argv[])
+{
+	/*
+		for (int i = 0; i < 10; i++)
+			fork();
+		That will form 2^10 processes.
+	*/
+
+	int process_1 = fork();
+	int process_2 = fork();
+	int i = 1;
+
+	if (process_1 != 0)
+		if (process_2 != 0)
+			printf("The Main Process ID: %d\n", getpid()); // Parent ID of the Child ID 
+	if (process_1 == 0)
+		if (process_2 == 0)
+			printf("New Child Process 1 ID: %d\nParent of New Child Process 1: %d\n",getpid(), getppid()); // Child of the Child ID 
+		else
+			printf("Child Process 1 ID: %d\nParent of Child Process 1: %d\n",getpid(), getppid()); // Child of the Child ID 
+	if (process_2 == 0)
+		printf("New Child Process 2 ID: %d\nParent of New Child Process 2: %d\n",getpid(), getppid()); // Child of the Child ID 
+	else
+		printf("The Main Process ID from 2nd fork(): %d\n", getpid()); // Parent ID of the Child ID 
+
+	while (wait(NULL) != -1 || errno != ECHILD)
+		printf("Waited for the child to finish (%d)\n", i++);
+
+	// If you call multiple forks, next fork will produce 2 more child process. One from the child and another from the main process. 
+/*
+	The Main Process			After 2nd fork() new child process 2 (z)
+	---------------				---------------
+	|	id1 = x   |		->	->	|	id1 = x   |
+	|	id2 = z   |				|	id2 = 0   |
+	---------------				---------------
+		   |
+		   |
+	Child process 1 (x)
+	---------------				id1 represents first fork()
+	|	id1 = 0   |				id2 represents second fork()
+	|	id2 = y   |
+	---------------				Parent of Child Process 1 is id1 = x
+		   |					Parent of New Child Process 1 is Child Process 2 id2 = y which is process y
+		   |					Parent of New Child Process 2 is The Main Process id2 = z which is process z
+	After 2nd fork()
+	new child process 1 (y)
+	---------------
+	|	id1 = 0   |
+	|	id2 = 0   |
+	---------------
+*/
+	// New Child Prcess 1 and New Child Process 2 will be derived from the second fork() function.
+	// Using wait() function in here will cause an error. Due to second fork() call now the Main Process has 2 children
+	// If one of the children finish the process the Main Process will execute and won't wait the other child to executed.
+	// Prevent that in multiple fork() functions do not use wait() function. Because this time child also has child or children and has to
+	// wait for them to be executed.
+
+	return (0);
+}
+
+//************************************************************************************************************************************************************//
+
+// Short introduction to signals
 int sifo(int pid)
 {
 	printf("\nEnter the process: ");
@@ -217,4 +282,3 @@ int main(void)
 //************************************************************************************************************************************************************//
 
 /* This program will allow you to understand communication between using signals.  */
-
