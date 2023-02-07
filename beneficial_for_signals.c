@@ -183,7 +183,77 @@ int main(int argc, char* argv[])
 
 //************************************************************************************************************************************************************//
 
-// Communicaiton between processes via pipes
+/* Pipe is a file that only has buffer to save the memory and allows progrramer write and read from it. Forms a unidirectional communication link
+between two file descriptors. Both forming main and child processes pipe() function can be used. One process can write to this pipe and another
+related process can read from it. fd[0] refers to read end of the pipe while fd[1] refers to write end of the pipe. Returns 0 in succes, -1 on error.
+pipe() functions behave as FIFO (first in first out). Can write 512 bytes at a time but can read only 1 byte at a time. 
+If successful, two file descriptors are stored in PIPEDES bytes written on PIPEDES[1] can be read from PIPEDES[0]*/
+
+/* Communicaiton between processes via pipe() function */
+int main(int argc, char* argv[])
+{
+	//fd[0] - read
+	//fd[1] - write
+
+	int x;
+	int y;
+	int fd[2];
+	if (pipe(fd) == -1)
+	{	
+		printf("Error occured while opening the pipe\n");
+		return (1);
+	}
+
+	int process = fork();
+	if (process == -1)
+		printf("Failed while calling fork()");
+
+	if (process == 0)
+	{
+		close(fd[0]);
+		printf("Enter a number: \n");
+		scanf("%d", &x);
+		if (write(fd[1], &x, sizeof(int)) == -1)
+		{
+			printf("Error occured while writing to the pipe\n");
+			return (2);
+		}
+		close(fd[1]);
+	}
+	else
+	{
+		close(fd[1]);
+		if (read(fd[0], &y, sizeof(int)) == -1)
+		{
+			printf("Error occured while reading from the pipe\n");
+			return (3);
+		}
+		close(fd[0]);
+		printf("Number has arrived from the Child Process as: %d\n", y);
+	}
+
+	// First parameter of read() and write() function refers to file descriptor
+	// Second parameter of write() function is referencing the data to be written
+	// Second parameter of read() function is referencing to the variable to be stored (buffered)
+	// Third parameter of both functions refers to bytes to write and read.
+	// Closing fd[0] before writing or fd[1] before reading is important to prevent errors due to miscoding. 
+	// Error handling is vital for these kind of programs. Every important output must be handled.
+
+	return (0);
+}
+
+//************************************************************************************************************************************************************//
+
+/* Case for  fork() and pipe() */
+int main(int argc, char* argv[])
+{
+
+
+
+
+
+	return (0);
+}
 
 //************************************************************************************************************************************************************//
 
