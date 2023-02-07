@@ -9,17 +9,13 @@
 #include <errno.h>
 
 /* This documentation is for to understand signals in C programming language. Compiling these programs with -Wall -Wextra -Werror flags may cause
-error throughout your programming. At first just compile these with gcc *.c */
+error throughout your programming. At first just compile these with gcc *.c 
 
-// Difference between program and process
+Difference between program and process
 A program is a set of instructions in order to perform a particular task. A process is an active instamce of the program whis is started when the program is executed. 
 Throughout the execution of the program there might be multiple processes. The process executes the instructions written in the program. A process can form smaller processes
 called "child process". In operating systems there should be a main system called as "parent process" that to invoke all the other processes. Kernel_task can be given as an 
-examle for this. In summary in process, there must be one initial proces to form all the other processes.
-
-/* This program will allow you to understand how to get notification from the process. Usage of sifo function is not necessary for Linux and MacOS but
-in Windows compiling with VSCode may occur problems due to "fork" function. This function is defined inside <sys/types.h> library. If you have troubles
-to call this function in windows just to observe signal process and usleep() try to add sifo function. */
+examle for this. In summary in process, there must be one initial proces to form all the other processes.*/
 
 // Understanding the fork() function:
 int main(int argc, char* argv[])
@@ -187,6 +183,14 @@ int main(int argc, char* argv[])
 }
 
 //************************************************************************************************************************************************************//
+
+// Communicaiton between processes via pipes
+
+//************************************************************************************************************************************************************//
+
+/* This program will allow you to understand how to get notification from the process. Usage of sifo function is not necessary for Linux and MacOS but
+in Windows compiling with VSCode may occur problems due to "fork" function. This function is defined inside <sys/types.h> library. If you have troubles
+to call this function in windows just to observe signal process and usleep() try to add sifo function. */
 
 // Short introduction to signals
 int sifo(int pid)
