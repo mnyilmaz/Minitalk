@@ -17,7 +17,7 @@ Throughout the execution of the program there might be multiple processes. The p
 called "child process". In operating systems there should be a main system called as "parent process" that to invoke all the other processes. Kernel_task can be given as an 
 examle for this. In summary in process, there must be one initial proces to form all the other processes.*/
 
-// Understanding the fork() function:
+/* Understanding the fork() function: */
 int main(int argc, char* argv[])
 {
 	fork();
@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
 
 //************************************************************************************************************************************************************//
 
-// Understanding the wait() function:
+/* Understanding the wait() function: */
 int main(int argc, char *argv[])
 {
 	int process = fork();
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
 
 //************************************************************************************************************************************************************//
 
-// Process IDs in C
+/* Process IDs in C */
 int main(int argc, char *argv[])
 {
 	int process = fork();
@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
 
 //************************************************************************************************************************************************************//
 
-// Multiple fork()
+/* Multiple fork() */
 int main(int argc, char* argv[])
 {
 	/*
@@ -242,15 +242,122 @@ int main(int argc, char* argv[])
 	return (0);
 }
 
+/* Remember! Meaning of return values are not important. They may include error messages or return ();*/
+
 //************************************************************************************************************************************************************//
 
-/* Case for  fork() and pipe() */
+/* Case 1 for  fork() and pipe() */
 int main(int argc, char* argv[])
 {
 
+	int x;
+	int y;
+	int sum;
+	int result;
+	int fd[2];
+	
+	if (pipe(fd) == -1)
+	{	
+		printf("Error occured while opening the pipe\n");
+		return (1);
+	}
 
+	int process = fork();
+	if (process == -1)
+		printf("Failed while calling fork()");
 
+	if (process == 0)
+	{
+		close(fd[0]);
+		printf("Enter the numbers: \n");
+		scanf("%d %d", &x, &y);
+		result = x + y;
+		if (write(fd[1], &result, sizeof(int)) == -1)
+		{
+			printf("Error occured while writing to the pipe\n");
+			return (2);
+		}
+		close(fd[1]);
+	}		
+	else
+	{
+		close(fd[1]);
+		if (read(fd[0], &sum, sizeof(int)) == -1)
+		{
+			printf("Error occured while reading from the pipe\n");
+			return (3);
+		}
+		close(fd[0]);
+		printf("Sum of x and y has arrived from the Child Process as: %d", sum);
+	}
 
+	return (0);
+}
+
+//************************************************************************************************************************************************************//
+
+/* Case 2 for  fork() and pipe() */
+int main(int argc, char* argv[])
+{
+
+	int nums[] = {2,3,5,8,2,9};
+	int num_size = sizeof(nums) / sizeof(int);
+	int start;
+	int end;
+	int sum = 0;
+	int i;
+	int fd[2];
+	int result;
+	
+	if (pipe(fd) == -1)
+	{	
+		printf("Error occured while opening the pipe\n");
+		return (1);
+	}
+
+	int process = fork();
+	if (process == -1)
+		printf("Failed while calling fork()");
+
+	if (process == 0) // Child process will start from 0
+	{
+		start = 0;
+		end = num_size / 2;
+		printf("Partial sum from the child process:");
+	}		
+	else // Main process will start from the where child process left 
+	{
+		start = num_size / 2;
+		end = num_size;
+		printf("Partial sum from the main process:");
+	}
+
+	for (i = start; i < end; i++)
+		sum += nums[i];
+
+	printf(" %d\n", sum);
+
+	if (process == 0)
+	{
+		close(fd[0]);
+		if (write(fd[1], &sum, sizeof(int)) == -1)
+			printf("An error has occured while writing to the pipe...");
+		close(fd[1]);
+		printf("Successfully written to the pipe!\n");
+	}
+	else
+	{
+		int result;
+		close(fd[1]);
+		if (read(fd[0], &result, sizeof(int)) == -1)
+			printf("An error has occured while reading from the pipe...");
+		close(fd[0]);
+		printf("Successfully read from the pipe!\n");
+
+		int total = sum + result;
+		printf("Partial sum of both processes: %d\n", total);
+		wait(NULL);
+	}
 
 	return (0);
 }
@@ -261,7 +368,7 @@ int main(int argc, char* argv[])
 in Windows compiling with VSCode may occur problems due to "fork" function. This function is defined inside <sys/types.h> library. If you have troubles
 to call this function in windows just to observe signal process and usleep() try to add sifo function. */
 
-// Short introduction to signals
+/* Short introduction to the signals */
 int sifo(int pid)
 {
 	printf("\nEnter the process: ");
