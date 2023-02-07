@@ -150,8 +150,8 @@ int main(int argc, char* argv[])
 	while (wait(NULL) != -1 || errno != ECHILD)
 		printf("Waited for the child to finish (%d)\n", i++);
 
-	// If you call multiple forks, next fork will produce 2 more child process. One from the child and another from the main process. 
-/*
+/* If you call multiple forks, next fork will produce 2 more child process. One from the child and another from the main process. 
+
 	The Main Process			After 2nd fork() new child process 2 (z)
 	---------------				---------------
 	|	id1 = x   |		->	->	|	id1 = x   |
@@ -172,12 +172,11 @@ int main(int argc, char* argv[])
 	|	id1 = 0   |
 	|	id2 = 0   |
 	---------------
-*/
-	// New Child Prcess 1 and New Child Process 2 will be derived from the second fork() function.
-	// Using wait() function in here will cause an error. Due to second fork() call now the Main Process has 2 children
-	// If one of the children finish the process the Main Process will execute and won't wait the other child to executed.
-	// Prevent that in multiple fork() functions do not use wait() function. Because this time child also has child or children and has to
-	// wait for them to be executed.
+
+	New Child Prcess 1 and New Child Process 2 will be derived from the second fork() function. Using wait() function in here will cause an error. 
+	Due to second fork() call now the Main Process has 2 children. If one of the children finish the process the Main Process will execute and won't 
+	wait the other child to executed.Prevent that in multiple fork() functions do not use wait() function. Because this time child also has child or 
+	children and has to wait for them to be executed. */
 
 	return (0);
 }
