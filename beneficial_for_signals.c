@@ -1,12 +1,15 @@
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <signal.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
-#include <time.h>
+#include <stdio.h>
+#include <fcntl.h>
 #include <errno.h>
+#include <time.h>
+
 
 /* This documentation is for to understand signals in C programming language. Compiling these programs with -Wall -Wextra -Werror flags may cause
 error throughout your programming. At first just compile these with gcc *.c 
@@ -29,7 +32,7 @@ int main(int argc, char* argv[])
 
 	// PID: Process ID
 	// Output will be:
-	// Fork is working... ID1	-> Parent Process
+	// Fork is working... ID1		-> Parent Process
 	// Fork is working... ID1 + 1	-> Child Process
 	// Fork system call is used for forming a new process, which is called child process,
 	// which runs concurrently with the process that makes the fork() call (parent process).
@@ -296,6 +299,8 @@ int main(int argc, char* argv[])
 
 //************************************************************************************************************************************************************//
 
+/* In this example processes must calculate the partial sum of the given array seperately and at the end these sum values must be merged. */
+
 /* Case 2 for  fork() and pipe() */
 int main(int argc, char* argv[])
 {
@@ -361,6 +366,66 @@ int main(int argc, char* argv[])
 
 	return (0);
 }
+
+//************************************************************************************************************************************************************//
+
+/* Basics of FIFO *?
+
+/* FIFO (first in first out) is a method for handling data structures. Processing starts with the first element. After processing of this element que continue
+as this until it reaches to the newest (in another hand the last element) element. According to the method this newest element has to be processed last. FIFO is 
+used in data structures, disk scheduling, communications and networking. 
+Opening the read or write end of a FIFO blocks until the other end is also openeed (by another process or thread). */
+
+/* Permissions
+
+	0OGO -> Owner - Group - Others
+	0000 -> no permissions
+	0700 -> read & write & execute for owner
+	0770 -> read & write & execute for owner & group
+	0777 -> read & write & execute for all
+	0700 -> read & write & execute for owner
+
+	0111 -> execute for all
+	0222 -> write for all
+	0333 -> execute & write for all
+	0444 -> read for all
+	0555 -> execute & read for all
+	0666 -> write & read for all
+*/
+
+int main(int argc, char* argv[])
+{
+	// First FIFO argument is "Path name"
+	// Second FIFO argument is "File Access Mode - Permissions" 
+
+	char *pathName = "FIFO_1";
+
+	if (mkfifo(pathName, 0777) == -1)
+	{
+		if (errno == EEXIST)
+			printf("The %s file has already exists.\n", pathName);
+			return (1);
+		printf("An error occured while forming %s file.\n", pathName);
+	}
+
+	int x = 95;
+	int fd;
+
+	printf("Opening...\n");
+	fd = open(pathName, O_RDWR); // If you choose O_RDONLY open() won't open because of the improper authorizaiton
+	printf("Opened.\n");
+
+	if(write(fd, &x, sizeof(int) == -1))
+		printf("Error occured while writing process.\n");
+
+	printf("Written.\n");
+	close(fd);
+	printf("Closed.");
+
+	return (0);
+}
+
+/* Remember! If only execute the mkfifo() function a file named "FIFO_1" can be seen inside the folder you're currently in.*/
 
 //************************************************************************************************************************************************************//
 
