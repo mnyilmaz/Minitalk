@@ -515,6 +515,12 @@ int main(int argc, char* argv[])
 
 	if (pid == -1)
 	{
+		printf("Invalid Process!");
+		return (1);
+	}
+
+	if (pid == 0)
+	{
 		// Child process
 		execlp("ping", "ping" "-c", "3", "google.com", NULL);
 	}
@@ -522,7 +528,7 @@ int main(int argc, char* argv[])
 	{
 		// Parent process
 		wait(NULL); // wait for any child process
-		printf("Process has done");
+		printf("Process has done\n");
 	}
 	return (0);
 }
