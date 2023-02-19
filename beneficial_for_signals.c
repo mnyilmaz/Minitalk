@@ -369,7 +369,7 @@ int main(int argc, char* argv[])
 
 //************************************************************************************************************************************************************//
 
-/* Basics of FIFO *?
+/* Basics of FIFO */
 
 /* FIFO (first in first out) is a method for handling data structures. Processing starts with the first element. After processing of this element que continue
 as this until it reaches to the newest (in another hand the last element) element. According to the method this newest element has to be processed last. FIFO is 
@@ -499,6 +499,33 @@ int main(int argc, char* argv[])
 }
 
 /* Remember! Make sure you've deleted the FIFO file in every single compiling process. Just to be sure. */
+
+//************************************************************************************************************************************************************//
+
+/* Executing Commands in C */
+
+/* execlp() function is declared in <process.h> which is available inside <unistd.h> library. This function replaces the current process image with a new 
+process image specified by file. The new image is constructed from a regular, executable file called the new process image file. No return is made because
+the calling process image is replaced by the new process image. 
+int execlp(cons char *file, const char *arg0, const char *arg1, ..., const char *argn, NULL)*/
+
+int main(int argc, char* argv[])
+{
+	int pid = fork();
+
+	if (pid == -1)
+	{
+		// Child process
+		execlp("ping", "ping" "-c", "3", "google.com", NULL);
+	}
+	else
+	{
+		// Parent process
+		wait(NULL); // wait for any child process
+		printf("Process has done");
+	}
+	return (0);
+}
 
 //************************************************************************************************************************************************************//
 
