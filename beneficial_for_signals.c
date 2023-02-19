@@ -522,7 +522,7 @@ int main(int argc, char* argv[])
 	if (pid == 0)
 	{
 		// Child process
-		execlp("ping", "ping" "-c", "3", "google.com", NULL);
+		execlp("ping", "ping", "-c", "3", "google.com", NULL);
 	}
 	else
 	{
