@@ -535,6 +535,23 @@ int main(int argc, char* argv[])
 
 //************************************************************************************************************************************************************//
 
+/* SIGUSR1 and SIGUSR2*/
+
+
+
+
+
+
+//************************************************************************************************************************************************************//
+
+/* Bit */
+
+
+
+
+
+//************************************************************************************************************************************************************//
+
 /* This program will allow you to understand how to get notification from the process. Usage of sifo function is not necessary for Linux and MacOS but
 in Windows compiling with VSCode may occur problems due to "fork" function. This function is defined inside <sys/types.h> library. If you have troubles
 to call this function in windows just to observe signal process and usleep() try to add sifo function. */
