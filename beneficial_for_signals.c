@@ -537,10 +537,45 @@ int main(int argc, char* argv[])
 
 /* SIGUSR1 and SIGUSR2*/
 
+int answer = 0;
 
+void	handle_the_server(int signal)
+{
+	if (answer == 0)
+		printf("Remember this is SIGUSR1!");
+}
 
+int main(int argc, char *argv[])
+{
+	int pid = fork();
 
+	if (pid == -1)
+	{
+		printf("Invalid signal attempt!\n");
+		return(0);
+	}
 
+	if (pid == 0)
+	{	// Child process
+		sleep(5);
+		kill(getppid(), SIGUSR1);
+	}
+	else
+	{	// Parent process
+		struct sigaction sa = {0};
+		sa.sa_flags = SA_RESTART;
+		sa.sa_handler = &handle_the_server;
+		sigaction(SIGUSR1, &sa, NULL);
+
+		printf("Do you want to continue?: ");
+		scanf("%d", &answer);
+		if (answer == 1)
+			printf("You've reached to the parent process!\n");
+		else
+			printf("Failed!\n");
+		wait(NULL); // wait child process to finish
+	}
+}
 
 //************************************************************************************************************************************************************//
 
