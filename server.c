@@ -1,36 +1,44 @@
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <signal.h>
-#include <sys/types.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <time.h>
 
-int    fork(int pid)
+int	handle_the_server(int signal)
 {
-    printf("\nEnter the process: ");
-    scanf("%d", &pid);
-    return(pid);
+	printf("Remember this is SIGUSR1!");
+	return(0);
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-    int pid;
-    pid = fork(pid);
+	int pid = fork();
 
-    if (pid == -1) // child process
-        return 1;
-    if (pid == 0) // parent process
-        while (pid == 0)
-        {
-            printf("\nSome test goes here");
-            usleep(4000000);
-            pid = fork(pid);
-        }
-    else
-    {
-        sleep(1);
-        kill(pid, SIGKILL); //process id kill
-        WAIT_CHILD;
-    }
-    pid = fork(pid);
-    return 0;
+	if (pid == -1)
+	{
+		printf("Invalid signal attempt!");
+		return(0);
+	}
+
+	if (pid == 0)
+	{	// Child process
+		usleep(5000);
+		kill(getppid(), SIGUSR1);
+	}
+	else
+	{	// Parent process
+		struct sigaction sa = {0};
+		sa.sa_flags = SA_RESTART;
+		sa.sa_handler = &handle_the_server;
+		sigaction(SIGUSR1, &sa, NULL);
+
+		printf("You've reached to the parent process!");
+	}
+	wait(NULL);
 }
