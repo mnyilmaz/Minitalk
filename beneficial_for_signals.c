@@ -576,6 +576,37 @@ int main(int argc, char* argv[])
 
 //************************************************************************************************************************************************************//
 
+/* Signal Handler */
+
+void sigint_handler(int signal)
+{
+	if(signal == SIGINT)
+		printf("\nIntercepted SIGINT\n");
+}
+
+void set_signal_action(void)
+{
+	struct sigaction act;
+
+	bzero(&act, sizeof(act));
+
+	act.sa_handler = &sigint_handler;
+
+	sigaction(SIGINT, &act, 0);
+
+}
+
+int main(void)
+{
+	set_signal_action();
+
+	while(1)
+		continue;
+	return (0);
+}
+
+//************************************************************************************************************************************************************//
+
 /* SIGUSR1 and SIGUSR2*/
 
 int answer = 0;
