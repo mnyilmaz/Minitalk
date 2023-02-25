@@ -124,6 +124,31 @@ int main(int argc, char *argv[])
 
 //************************************************************************************************************************************************************//
 
+/* Avoiding Zombie Process */
+
+int main(void)
+{
+
+	pid_t pid = fork();
+
+	if(pid == -1)
+		return(1);
+	if (pid == 0)
+	{
+		printf("Child PID: %d\n", pid); // display: 0
+		printf("Child execution completed.");
+	}
+	else if (pid > 0)
+	{
+		printf("This is parent and my child's PID: %d\n", pid); // display: larger than 0
+		while(1)
+			usleep(1);
+	}
+	return (0);
+}
+
+//************************************************************************************************************************************************************//
+
 /* Multiple fork() */
 int main(int argc, char* argv[])
 {
