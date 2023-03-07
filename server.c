@@ -29,12 +29,13 @@ void	handle_the_server(int signal)
 
 int	main(void)
 {
-	ft_printf("Server PID: %d\n", getpid());
+	ft_printf("PID: %d\n", getpid());
 	signal(SIGUSR1, handle_the_server);
 	signal(SIGUSR2, handle_the_server);
 	while (1)
 		pause();
 }
+
 
 /* void set_signal_action(void)
 {
