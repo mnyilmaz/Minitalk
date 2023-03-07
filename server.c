@@ -11,27 +11,29 @@
 /* ************************************************************************** */
 
 #include "minitalk.h"
-#include <string.h>
-#include <stdio.h>
 
-void handle_the_server(int signal)
+void	handle_the_server(int signal)
 {
-	static int	bit = 7;
-	static int	set = 0;
-	static char c;
+	static int	bit;
+	static int	res;
 
 	if (signal == SIGUSR1)
-		set += (1 << bit);
-	else
-		set += (0 << bit);
-	if (bit == 0)
+		res += (1 << (7 - bit));
+	bit++;
+	if (bit == 8)
 	{
-		printf("%c", set);
-		bit = 7;
-		set = 0;
+		ft_printf("%c", res);
+		reset(&bit, &res);
 	}
-	else
-		bit--;
+}
+
+int	main(void)
+{
+	ft_printf("Server PID: %d\n", getpid());
+	signal(SIGUSR1, handle_the_server);
+	signal(SIGUSR2, handle_the_server);
+	while (1)
+		pause();
 }
 
 /* void set_signal_action(void)
@@ -41,20 +43,3 @@ void handle_the_server(int signal)
 	sigaction(SIGUSR1, &act, 0);
 	sigaction(SIGUSR2, &act, 0);
 } */
-
-int main(void)
-{
-	pid_t pid;
-
-	pid = getpid();
-	printf("Parent: %d\n", pid);
-	//printf("Child Developer PID: %d\n", pid);
-	
-	signal(SIGUSR1, handle_the_server);
-	signal(SIGUSR2, handle_the_server);
-
-	while(1)
-		pause();
-
-	return (0);
-}
