@@ -55,20 +55,29 @@ int main(int argc, char *argv[])
 
 /************************************************************************************************************/
 
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mervyilm <mervyilm@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/20 18:01:32 by mervyilm          #+#    #+#             */
+/*   Updated: 2023/02/04 15:40:36 by mervyilm         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
-void	handle_the_client(pid_t pid, char bit)
+void	handle_the_client(pid_t pid, char bit, int shift)
 {
-	int	shift;
-
-	shift = 7;
 	while (shift > -1)
 	{
 		if ((bit >> shift) & 1)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(100);
+		usleep(10);
 		shift--;
 	}
 }
@@ -80,7 +89,7 @@ int	main(int argc, char **argv)
 	i = 0;
 	if (argc == 3)
 		while(argv[1][i])
-			handle_the_client((pid_t)(ft_atoi(argv[1])), argv[2][i++]);
+			handle_the_client((pid_t)(ft_atoi(argv[1])), argv[2][i++], 7);
 	else
 		ft_printf("You shall not send the signal!");
 	return (0);
