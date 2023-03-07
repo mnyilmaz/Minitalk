@@ -26,7 +26,7 @@ int		ft_printf(char *fmt, ...);
 int		ft_print_int(int num);
 void	set_signal_action(void);
 void	handle_the_server(int signal);
-void	handle_the_client(pid_t pid, char bit);
+void	handle_the_client(pid_t pid, char bit, int shift);
 void reset(int *a, int *b);
 
 #endif
