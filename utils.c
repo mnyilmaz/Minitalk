@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -5,10 +6,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mervyilm <mervyilm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/04 14:09:34 by mervyilm          #+#    #+#             */
-/*   Updated: 2023/03/04 14:16:13 by mervyilm         ###   ########.fr       */
+/*   Created: 2023/01/20 18:01:32 by mervyilm          #+#    #+#             */
+/*   Updated: 2023/02/04 15:40:36 by mervyilm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 # include "minitalk.h"
 
@@ -67,7 +69,7 @@ int	ft_print_int(int num)
 	return (rlen);
 }
 
-int	ft_printf(const char *fmt, ...)
+int	ft_printf(char *fmt, ...)
 {
 	va_list	to_do;
 	char	spec;
@@ -93,7 +95,7 @@ int	ft_printf(const char *fmt, ...)
 	return (len);
 }
 
-int	ft_atoi(const char *s)
+int	ft_atoi(char *s)
 {
 	int	sign;
 	int	result;
@@ -114,4 +116,10 @@ int	ft_atoi(const char *s)
 		s++;
 	}
 	return (result * sign);
+}
+
+void reset(int *a, int *b)
+{
+	*a *= 0;
+	*b *= 0;
 }
