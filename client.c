@@ -52,3 +52,36 @@ int main(int argc, char *argv[])
 	handle_the_client(atoi(argv[1]), argv[2]);
 	return(0);
 }
+
+/************************************************************************************************************/
+
+#include "minitalk.h"
+
+void	handle_the_client(pid_t pid, char bit)
+{
+	int	shift;
+
+	shift = 7;
+	while (shift > -1)
+	{
+		if ((bit >> shift) & 1)
+			kill(pid, SIGUSR1);
+		else
+			kill(pid, SIGUSR2);
+		usleep(100);
+		shift--;
+	}
+}
+
+int	main(int argc, char **argv)
+{
+	int i;
+
+	i = 0;
+	if (argc == 3)
+		while(argv[1][i])
+			handle_the_client((pid_t)(ft_atoi(argv[1])), argv[2][i++]);
+	else
+		ft_printf("You shall not send the signal!");
+	return (0);
+}
