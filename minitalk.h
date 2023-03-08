@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mervyilm <mervyilm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/20 18:01:32 by mervyilm          #+#    #+#             */
-/*   Updated: 2023/02/04 15:40:36 by mervyilm         ###   ########.fr       */
+/*   Created: 2023/03/08 11:09:45 by mervyilm          #+#    #+#             */
+/*   Updated: 2023/03/08 12:19:49 by mervyilm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,11 @@ int		ft_print_char(char c);
 int		ft_print_str(char *s);
 int		ft_printf(char *fmt, ...);
 int		ft_print_int(int num);
-void	set_signal_action(void);
 void	handle_the_server(int signal);
 void	handle_the_client(pid_t pid, char bit, int shift);
-void reset(int *a, int *b);
+void	next_line(pid_t pid);
+void	set_signal_action(void);
+void 	reset(int *a, int *b);
+void	ft_alarm(void);
 
 #endif
