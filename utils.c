@@ -6,7 +6,7 @@
 /*   By: mervyilm <mervyilm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 11:10:14 by mervyilm          #+#    #+#             */
-/*   Updated: 2023/03/08 12:15:57 by mervyilm         ###   ########.fr       */
+/*   Updated: 2023/03/08 14:07:03 by mervyilm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,20 +124,25 @@ void reset(int *a, int *b)
 
 void next_line(pid_t pid)
 {
-	kill(pid, SIGUSR2);
+	kill(pid, 31);
 	usleep(40);  
-	kill(pid, SIGUSR2);
+	kill(pid, 31);
 	usleep(40);  
-	kill(pid, SIGUSR2);
+	kill(pid, 31);
 	usleep(40);  
-	kill(pid, SIGUSR2);
+	kill(pid, 31);
 	usleep(40);  
-	kill(pid, SIGUSR1);
+	kill(pid, 30);
 	usleep(40);  
-	kill(pid, SIGUSR2);
+	kill(pid, 31);
 	usleep(40);  
-	kill(pid, SIGUSR1);
+	kill(pid, 30);
 	usleep(40);  
-	kill(pid, SIGUSR2);
+	kill(pid, 31);
 	usleep(40);  
+}
+
+void	ft_alarm(void)
+{
+	ft_printf("Message received successfully: ");
 }
