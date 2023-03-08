@@ -6,7 +6,7 @@
 /*   By: mervyilm <mervyilm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 11:09:45 by mervyilm          #+#    #+#             */
-/*   Updated: 2023/03/08 12:19:49 by mervyilm         ###   ########.fr       */
+/*   Updated: 2023/03/08 14:09:00 by mervyilm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ int		ft_print_int(int num);
 void	handle_the_server(int signal);
 void	handle_the_client(pid_t pid, char bit, int shift);
 void	next_line(pid_t pid);
-void	set_signal_action(void);
-void 	reset(int *a, int *b);
+void	reset(int *a, int *b);
 void	ft_alarm(void);
 
 #endif
