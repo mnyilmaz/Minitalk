@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mervyilm <mervyilm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/20 18:01:32 by mervyilm          #+#    #+#             */
-/*   Updated: 2023/02/04 15:40:36 by mervyilm         ###   ########.fr       */
+/*   Created: 2023/03/08 11:10:14 by mervyilm          #+#    #+#             */
+/*   Updated: 2023/03/08 12:15:57 by mervyilm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 # include "minitalk.h"
 
@@ -121,4 +120,24 @@ void reset(int *a, int *b)
 {
 	*a *= 0;
 	*b *= 0;
+}
+
+void next_line(pid_t pid)
+{
+	kill(pid, SIGUSR2);
+	usleep(40);  
+	kill(pid, SIGUSR2);
+	usleep(40);  
+	kill(pid, SIGUSR2);
+	usleep(40);  
+	kill(pid, SIGUSR2);
+	usleep(40);  
+	kill(pid, SIGUSR1);
+	usleep(40);  
+	kill(pid, SIGUSR2);
+	usleep(40);  
+	kill(pid, SIGUSR1);
+	usleep(40);  
+	kill(pid, SIGUSR2);
+	usleep(40);  
 }
