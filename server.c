@@ -5,12 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mervyilm <mervyilm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/25 17:27:07 by mervyilm          #+#    #+#             */
-/*   Updated: 2023/02/25 17:27:07 by mervyilm         ###   ########.fr       */
+/*   Created: 2023/03/08 11:09:53 by mervyilm          #+#    #+#             */
+/*   Updated: 2023/03/08 11:09:53 by mervyilm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+
+void	ft_alarm(void)
+{
+	ft_printf("Message received successfully!\n");
+}
+
 
 void	handle_the_server(int signal)
 {
@@ -27,20 +33,36 @@ void	handle_the_server(int signal)
 	}
 }
 
+void set_signal_action(void)
+{
+/* 	struct sigaction act;
+
+	act.sa_flags = SA_RESTART;
+	act.sa_mask = 0;
+	act.sa_handler = &handle_the_server; */
+
+/* 	sigaddset(&act.sa_handler, SIGUSR1);
+	sigemptyset(&act.sa_handler);
+	sigaddset(&act.sa_handler, SIGUSR2);
+	sigemptyset(&act.sa_handler); */
+	
+	struct sigaction alarm;
+	alarm.sa_flags = SA_RESTART;
+	alarm.sa_mask = 0;
+	alarm.sa_handler = &handle_the_server;
+
+	sigaction(SIGTTOU, &alarm, 0);
+	ft_printf("Signal received!");
+} 
+
 int	main(void)
 {
-	ft_printf("PID: %d\n", getpid());
+	pid_t pid;
+
+	pid = getpid();
+	ft_printf("PID: %d\n", pid);
 	signal(SIGUSR1, handle_the_server);
 	signal(SIGUSR2, handle_the_server);
 	while (1)
 		pause();
 }
-
-
-/* void set_signal_action(void)
-{
-	struct sigaction act;
-	act.sa_handler = &handle_the_server;
-	sigaction(SIGUSR1, &act, 0);
-	sigaction(SIGUSR2, &act, 0);
-} */
